@@ -1,0 +1,6 @@
+[submodule "Model/DataAccessor/JsonAccessor"]
+	path = Model/DataAccessor/JsonAccessor
+	url = git@github.com:YiFanChen99/JsonAccessor.git
+[submodule "Model/DataAccessor/DbAccessor"]
+	path = Model/DataAccessor/DbAccessor
+	url = git@github.com:YiFanChen99/DbAccessor.git
