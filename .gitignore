@@ -1,0 +1,4 @@
+*.pyc
+/.idea
+TestMain.py
+Data/ConfigUser.json
