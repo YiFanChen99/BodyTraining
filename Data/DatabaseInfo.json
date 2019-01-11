@@ -1,0 +1,31 @@
+{
+	"Exercise": {
+		"Note": "重量訓練的動作分類與細部樣式。",
+		"Tables": [
+			{
+				"Name": "Exercise",
+				"Schema": ["id", "name ", "form"],
+				"Note": "各類型的運動模式，並根據具體 form 分類。"
+			}, {
+				"Name": "SupportItem",
+				"Schema": ["id", "name"],
+				"Note": "輔助道具。"
+			}, {
+				"Name": "ExerciseDefault",
+				"Schema": ["id", "exercise_id ", "basic_weight", "increment", "unit", "rest"],
+				"Note": "某運動模式的預設的各項數據，方便輸入記錄。"
+			}, {
+				"Name": "ExerciseDefaultSupport",
+				"Schema": ["id", "exercise_id ", "item_id"],
+				"Note": "某運動模式的預設的輔助道具，方便輸入記錄。"
+			}
+		]
+	},
+	"OtherTables": [
+		{
+			"Name": "Timeline",
+			"Schema": ["id", "date"],
+			"Note": "其他 tables 皆記錄日期的 id，靠此查詢實際日期。"
+		}
+	]
+}
