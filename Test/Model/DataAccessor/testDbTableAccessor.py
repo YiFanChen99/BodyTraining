@@ -2,9 +2,10 @@
 import unittest
 
 from Model.DataAccessor.DbTableAccessor import *
+from Test.Utility import init_test_db, test_db_filename
 
-test_db_filename = "testDbTableAccessor.db"
-test_db_path = "./Test/Model/DataAccessor/" + test_db_filename
+init_test_db()
+
 ''' Test data in str-representation.
 Exercise:
     id:1, DeadLift, Conventional, Note(Normal)
@@ -31,13 +32,7 @@ def init_tables():
     db.create_tables([DateRecord, DateRecordNote, SetRecord, SetRecordSupport, SetRecordNote])
 
 
-class MockDbTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        db.init(test_db_path)
-
-
-class RecordCountTest(MockDbTest):
+class RecordCountTest(unittest.TestCase):
     def test_exercise_tables(self):
         self.assertEqual(2, Exercise.select().count())
         self.assertEqual(1, ExerciseNote.select().count())
@@ -56,7 +51,7 @@ class RecordCountTest(MockDbTest):
         self.assertEqual(2, Timeline.select().count())
 
 
-class TableOperationTest(MockDbTest):
+class TableOperationTest(unittest.TestCase):
     def test_create_tables(self):
         with self.assertRaises(OperationalError):  # table already exists
             db.create_tables([Timeline], safe=False)
@@ -99,7 +94,7 @@ class TableOperationTest(MockDbTest):
                 Exercise.name == "DeadLift" and Exercise.form == "111").get()
 
 
-class ExerciseRelationTest(MockDbTest):
+class ExerciseRelationTest(unittest.TestCase):
     @staticmethod
     def get_dead_lift(form):
         return Exercise.select().where(
@@ -145,7 +140,7 @@ class ExerciseRelationTest(MockDbTest):
         self.assertEqual("", e2.note)
 
 
-class DateRecordRelationTest(MockDbTest):
+class DateRecordRelationTest(unittest.TestCase):
     def test_record_on_date(self):
         def get_by_date(id_):
             return DateRecord.select().where(DateRecord.date == Timeline.get(id=id_))
@@ -190,7 +185,7 @@ class DateRecordRelationTest(MockDbTest):
         self.assertEqual("", rec1.note)
 
 
-class SetRecordRelationTest(MockDbTest):
+class SetRecordRelationTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -242,5 +237,5 @@ class SetRecordRelationTest(MockDbTest):
 
 
 if __name__ == "__main__":
-    test_db_path = "./" + test_db_filename
+    init_test_db("../../Data/" + test_db_filename)
     unittest.main()

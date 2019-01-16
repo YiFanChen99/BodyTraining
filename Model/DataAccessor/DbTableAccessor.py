@@ -3,7 +3,6 @@ from peewee import *
 import datetime
 
 from Model.DataAccessor.DbAccessor.DbOrmAccessor import db, BaseModel
-from Model.DataAccessor.Configure import config
 
 
 def atomic():
@@ -154,9 +153,6 @@ def _create_tables():
     db.create_tables([Exercise, ExerciseNote, SupportItem, ExerciseDefault, ExerciseDefaultSupport])
     db.create_tables([DateRecord, DateRecordNote, SetRecord, SetRecordSupport, SetRecordNote])
 
-
-db.init(config['db_path'])
-db.connect()
 
 if __name__ == "__main__":
     pass
