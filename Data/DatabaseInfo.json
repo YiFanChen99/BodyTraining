@@ -16,7 +16,7 @@
 				"Note": "輔助道具。"
 			}, {
 				"Name": "ExerciseDefault",
-				"Schema": ["id", "exercise_id ", "basic_weight", "increment", "rest"],
+				"Schema": ["id", "exercise_id ", "weight", "increment", "rest"],
 				"Note": "某運動模式的預設的各項數據，方便輸入記錄。"
 			}, {
 				"Name": "ExerciseDefaultSupport",

@@ -105,7 +105,7 @@ class ExerciseRelationTest(unittest.TestCase):
         self.assertEqual(0, len(conventional._default))
 
         default = conventional.default
-        self.assertEqual(0.0, default.basic_weight)
+        self.assertEqual(0.0, default.weight)
         self.assertEqual(0.0, default.increment)
         self.assertEqual(0, default.rest)
 
@@ -114,7 +114,7 @@ class ExerciseRelationTest(unittest.TestCase):
         self.assertEqual(1, len(romania._default))
 
         default = romania.default
-        self.assertEqual(17, default.basic_weight)
+        self.assertEqual(17, default.weight)
         self.assertEqual(0.0, default.increment)
         self.assertEqual(120, default.rest)
 

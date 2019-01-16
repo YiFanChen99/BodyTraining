@@ -61,7 +61,7 @@ class SupportItem(BaseModel):
 
 class ExerciseDefault(BaseModel):
     exercise = ForeignKeyField(Exercise, backref='_default', unique=True)
-    basic_weight = FloatField(default=0)
+    weight = FloatField(default=0)
     increment = FloatField(default=0)
     rest = IntegerField()
 
