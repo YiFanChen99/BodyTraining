@@ -21,6 +21,32 @@
 			}
 		]
 	},
+	"Record": {
+		"Note": "記錄重量訓練的樣式種類以及組數細節。",
+		"Tables": [
+			{
+				"Name": "DateRecord",
+				"Schema": ["id", "date_id", "order", "exercise_id", "rest_between"],
+				"Note": "某天某運動的記錄。"
+			}, {
+				"Name": "DateRecordNote",
+				"Schema": ["id", "date_record_id", "note"],
+				"Note": "某天某運動的某記錄補充。"
+			}, {
+				"Name": "SetRecord",
+				"Schema": ["id", "date_record_id", "order", "weight", "repetition"],
+				"Note": "某天某運動某組的記錄。"
+			}, {
+				"Name": "SetRecordSupport",
+				"Schema": ["id", "set_record_id", "item_id"],
+				"Note": "某天某運動某組的某記錄使用的輔助道具。"
+			}, {
+				"Name": "SetRecordNote",
+				"Schema": ["id", "set_record_id", "note"],
+				"Note": "某天某運動某組的某記錄補充。"
+			}
+		]
+	},
 	"OtherTables": [
 		{
 			"Name": "Timeline",

@@ -71,6 +71,70 @@ class ExerciseDefaultSupport(BaseModel):
         )
 
 
+class DateRecord(BaseModel):
+    date = ForeignKeyField(Timeline, backref='date_record')
+    order = IntegerField()
+    exercise = ForeignKeyField(Exercise, backref='date_record')
+    rest_between = IntegerField()
+
+    class Meta:
+        indexes = (
+            (('date', 'order'), True),  # unique
+        )
+
+    def __getattr__(self, item):
+        if item == 'note':
+            try:
+                return self._note[0].note
+            except IndexError:
+                return ""
+        else:
+            return super().__getattr__(item)
+
+
+class DateRecordNote(BaseModel):
+    date_record = ForeignKeyField(DateRecord, backref='_note', unique=True)
+    note = TextField()
+
+
+class SetRecord(BaseModel):
+    date_record = ForeignKeyField(DateRecord, backref='set_record')
+    order = IntegerField()
+    weight = FloatField()
+    repetition = IntegerField()
+
+    class Meta:
+        indexes = (
+            (('date_record', 'order'), True),  # unique
+        )
+
+    def __getattr__(self, item):
+        if item == 'note':
+            try:
+                return self._note[0].note
+            except IndexError:
+                return ""
+        elif item == 'supports':
+            return [sup.item for sup in self._support]
+        else:
+            return super().__getattr__(item)
+
+
+class SetRecordSupport(BaseModel):
+    set_record = ForeignKeyField(SetRecord, backref='_support')
+    item = ForeignKeyField(SupportItem, backref='set_record')
+
+    class Meta:
+        indexes = (
+            (('set_record', 'item'), True),  # unique
+        )
+
+
+class SetRecordNote(BaseModel):
+    set_record = ForeignKeyField(SetRecord, backref='_note', unique=True)
+    note = TextField()
+
+
 def _create_tables():
     """
     Peewee will create tables in all-lowercases.
@@ -78,6 +142,7 @@ def _create_tables():
     """
     db.create_tables([Timeline])
     db.create_tables([Exercise, SupportItem, ExerciseDefault, ExerciseDefaultSupport])
+    db.create_tables([DateRecord, DateRecordNote, SetRecord, SetRecordSupport, SetRecordNote])
 
 
 db.init(config['db_path'])
