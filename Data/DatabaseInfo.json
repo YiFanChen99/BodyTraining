@@ -7,12 +7,16 @@
 				"Schema": ["id", "name ", "form"],
 				"Note": "各類型的運動模式，並根據具體 form 分類。"
 			}, {
+				"Name": "ExerciseNote",
+				"Schema": ["id", "exercise_id", "note"],
+				"Note": "某運動模式的補充。"
+			}, {
 				"Name": "SupportItem",
-				"Schema": ["id", "name"],
+				"Schema": ["id", "name", "cheat"],
 				"Note": "輔助道具。"
 			}, {
 				"Name": "ExerciseDefault",
-				"Schema": ["id", "exercise_id ", "basic_weight", "increment", "unit", "rest"],
+				"Schema": ["id", "exercise_id ", "basic_weight", "increment", "rest"],
 				"Note": "某運動模式的預設的各項數據，方便輸入記錄。"
 			}, {
 				"Name": "ExerciseDefaultSupport",

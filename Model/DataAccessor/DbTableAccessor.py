@@ -38,12 +38,23 @@ class Exercise(BaseModel):
                 return ExerciseDefault.get_default_record()
         elif item == 'supports':
             return [sup.item for sup in self._support]
+        if item == 'note':
+            try:
+                return self._note[0].note
+            except IndexError:
+                return ""
         else:
             return super().__getattr__(item)
 
 
+class ExerciseNote(BaseModel):
+    exercise = ForeignKeyField(Exercise, backref='_note', unique=True)
+    note = TextField()
+
+
 class SupportItem(BaseModel):
     name = TextField(unique=True)
+    cheat = BooleanField()
 
     def __str__(self):
         return self.name
@@ -53,12 +64,11 @@ class ExerciseDefault(BaseModel):
     exercise = ForeignKeyField(Exercise, backref='_default', unique=True)
     basic_weight = FloatField(default=0)
     increment = FloatField(default=0)
-    unit = TextField()
     rest = IntegerField()
 
     @staticmethod
     def get_default_record():
-        return ExerciseDefault(unit="", rest=0)
+        return ExerciseDefault(rest=0)
 
 
 class ExerciseDefaultSupport(BaseModel):
@@ -141,7 +151,7 @@ def _create_tables():
     Needs to be renamed manually in camel-style.
     """
     db.create_tables([Timeline])
-    db.create_tables([Exercise, SupportItem, ExerciseDefault, ExerciseDefaultSupport])
+    db.create_tables([Exercise, ExerciseNote, SupportItem, ExerciseDefault, ExerciseDefaultSupport])
     db.create_tables([DateRecord, DateRecordNote, SetRecord, SetRecordSupport, SetRecordNote])
 
 

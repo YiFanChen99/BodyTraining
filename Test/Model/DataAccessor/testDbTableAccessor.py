@@ -7,8 +7,8 @@ test_db_filename = "testDbTableAccessor.db"
 test_db_path = "./Test/Model/DataAccessor/" + test_db_filename
 ''' Test data in str-representation.
 Exercise:
-    id:1, DeadLift, Conventional
-    id:2, DeadLift, Romania, Default(17.0, 0.0, kg, 120)
+    id:1, DeadLift, Conventional, Note(Normal)
+    id:2, DeadLift, Romania, Default(17.0, 0.0, 120)
         DefaultSupport[Belt, Lifting Straps]
 
 Timeline:
@@ -27,7 +27,7 @@ Timeline:
 
 def init_tables():
     db.create_tables([Timeline])
-    db.create_tables([Exercise, SupportItem, ExerciseDefault, ExerciseDefaultSupport])
+    db.create_tables([Exercise, ExerciseNote, SupportItem, ExerciseDefault, ExerciseDefaultSupport])
     db.create_tables([DateRecord, DateRecordNote, SetRecord, SetRecordSupport, SetRecordNote])
 
 
@@ -40,6 +40,7 @@ class MockDbTest(unittest.TestCase):
 class RecordCountTest(MockDbTest):
     def test_exercise_tables(self):
         self.assertEqual(2, Exercise.select().count())
+        self.assertEqual(1, ExerciseNote.select().count())
         self.assertEqual(2, SupportItem.select().count())
         self.assertEqual(1, ExerciseDefault.select().count())
         self.assertEqual(2, ExerciseDefaultSupport.select().count())
@@ -111,7 +112,6 @@ class ExerciseRelationTest(MockDbTest):
         default = conventional.default
         self.assertEqual(0.0, default.basic_weight)
         self.assertEqual(0.0, default.increment)
-        self.assertEqual("", default.unit)
         self.assertEqual(0, default.rest)
 
     def test_exercise_default(self):
@@ -121,7 +121,6 @@ class ExerciseRelationTest(MockDbTest):
         default = romania.default
         self.assertEqual(17, default.basic_weight)
         self.assertEqual(0.0, default.increment)
-        self.assertEqual("kg", default.unit)
         self.assertEqual(120, default.rest)
 
     def test_no_support(self):
@@ -135,6 +134,15 @@ class ExerciseRelationTest(MockDbTest):
         expect = {"Lifting Straps", "Belt"}
         actual = set((str(sup) for sup in romania.supports))
         self.assertEqual(expect, actual)
+
+    def test_exercise_with_note(self):
+        e1 = Exercise.get(id=1)
+        self.assertEqual(1, len(e1._note))
+        self.assertEqual("Normal", e1.note)
+
+        e2 = Exercise.get(id=2)
+        self.assertEqual(0, len(e2._note))
+        self.assertEqual("", e2.note)
 
 
 class DateRecordRelationTest(MockDbTest):
