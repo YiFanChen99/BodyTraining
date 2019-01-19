@@ -9,13 +9,6 @@ def atomic():
     return db.atomic()
 
 
-def create(model, **kwargs):
-    try:
-        return model.create(**kwargs)
-    except IntegrityError as ex:
-        raise ValueError("IntegrityError") from ex
-
-
 class Timeline(BaseModel):
     date = DateField(unique=True, default=datetime.date.today)
 
