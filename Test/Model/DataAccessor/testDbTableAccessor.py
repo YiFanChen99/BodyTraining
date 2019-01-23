@@ -6,25 +6,6 @@ from Test.Utility import init_test_db, test_db_filename
 
 init_test_db()
 
-''' Test data in str-representation.
-Exercise:
-    id:1, DeadLift, Conventional, Note(Normal)
-    id:2, DeadLift, Romania, Default(17.0, 0.0, 120)
-        DefaultSupport[Belt, Lifting Straps]
-
-Timeline:
-    id:1, 2019-01-09
-        DateRecord: id:3, 1, Exercise(2), 30, Note(Dr5Test1)
-            SetRecord: id:1 , 2, 10, 3
-                Support[Belt]
-            SetRecord: id:2 , 4, 12.5, 2, Note(Sr4Test)
-                Support[Belt, Lifting Straps]
-    id:2, 2019-01-01
-        DateRecord: id:1, 3, Exercise(1), 10
-            SetRecord: id:3 , 1, 5, 5
-        DateRecord: id:2, 5, Exercise(2), 20, Note(Dr5Test1)
-'''
-
 
 def init_tables():
     db.create_tables([Timeline])
