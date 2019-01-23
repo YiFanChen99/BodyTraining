@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from peewee import *
 import datetime
+from statistics import median, StatisticsError
 
 from Model.DataAccessor.DbAccessor.DbOrmAccessor import db, BaseModel
 
@@ -82,6 +83,7 @@ class DateRecord(BaseModel):
     rest_between = IntegerField()
 
     SET_NOTE_REPR = "{0}:{1}"
+    MIN_REPETITION_FOR_VALID_WEIGHT = 5
 
     class Meta:
         indexes = (
@@ -110,18 +112,21 @@ class DateRecord(BaseModel):
         return sum(s_rec.volume for s_rec in self.set_record)
 
     @property
-    def max_weight_set(self):
+    def max_valid_weight(self):
         try:
-            return max(self.set_record, key=lambda s_rec: s_rec.weight)
+            return self.get_max_weight(self.MIN_REPETITION_FOR_VALID_WEIGHT)
         except ValueError:
             return None
 
     @property
-    def max_repetition_set(self):
+    def median_repetition(self):
         try:
-            return max(self.set_record, key=lambda s_rec: s_rec.repetition)
-        except ValueError:
+            return median(map(lambda rec: rec.repetition, self.set_record))
+        except StatisticsError:
             return None
+
+    def get_max_weight(self, threshold_rep):
+        return max((rec.weight for rec in self.set_record if rec.repetition >= threshold_rep))
 
 
 class DateRecordNote(BaseModel):

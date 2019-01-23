@@ -65,13 +65,6 @@ class ColumnsDefinable(object):
     def get_column_getters(cls, *args):
         return list(cls.get_columns_definition(*args).values())
 
-    @classmethod
-    def get_data(cls, *args):
-        # noinspection PyUnresolvedReferences
-        records = super().get_data(*args)
-        getters = cls.get_column_getters(*args)
-        return tuple(tuple(getter(rec) for getter in getters) for rec in records)
-
 
 if __name__ == "__main__":
     pass

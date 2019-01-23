@@ -17,14 +17,24 @@ class ExerciseTest(unittest.TestCase):
         actual = ExerciseModel.get_column_names()
         self.assertEqual(expect, actual)
 
-    def test_get_data(self):
+    def test_column_getters(self):
         data = ExerciseModel.get_data()
         self.assertEqual(2, len(data))
+        definition = ExerciseModel.get_columns_definition()
+        self.assertEqual(8, len(definition))
 
-        self.assertEqual((1, 'DeadLift', 'Conventional', 'Normal'), data[0][:4])
+        dl_conv = data[0]
+        self.assertEqual(1, definition['Id'](dl_conv))
+        self.assertEqual("DeadLift", definition['Name'](dl_conv))
+        self.assertEqual("Conventional", definition['Form'](dl_conv))
+        self.assertEqual("Normal", definition['Note'](dl_conv))
 
-        self.assertEqual((17.0, 0.0, 120), data[1][4:7])
-        self.assertEqual({'Belt', 'Lifting Straps'}, data[1][7])
+        dl_roma = data[1]
+        self.assertEqual(17.0, definition['Def. weight'](dl_roma))
+        self.assertEqual(0.0, definition['Def. increment'](dl_roma))
+        self.assertEqual(120, definition['Def. rest'](dl_roma))
+        items = {"Belt", "Lifting Straps"}
+        self.assertEqual(items, definition['Def. supports'](dl_roma))
 
     def test__default_columns(self):
         expect = ['id', 'name', 'form']

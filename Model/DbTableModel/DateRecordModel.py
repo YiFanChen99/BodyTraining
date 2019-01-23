@@ -21,15 +21,15 @@ class DateRecordModel(ColumnsDefinable, BaseModel):
             ('Volume', lambda rec: rec.volume),
             ('Rest', lambda rec: rec.rest_between),
             ('Summary', lambda rec: rec.summary),
-            ('MaxWeightSet', lambda rec: rec.max_weight_set),
-            ('MaxRepetitionSet', lambda rec: rec.max_repetition_set),
+            ('MaxWeight', lambda rec: rec.max_valid_weight),
+            ('MedianRep.', lambda rec: rec.median_repetition),
         ))
 
     @classmethod
     def get_column_names(cls, *args):
         """
         >>> DateRecordModel.get_column_names()
-        ['Id', 'Date', 'Order', 'Name', 'Form', 'Sets', 'Volume', 'Rest', 'Summary', 'MaxWeightSet', 'MaxRepetitionSet']
+        ['Id', 'Date', 'Order', 'Name', 'Form', 'Sets', 'Volume', 'Rest', 'Summary', 'MaxWeight', 'MedianRep.']
         """
         return super().get_column_names(*args)
 
