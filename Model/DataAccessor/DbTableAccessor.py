@@ -79,19 +79,47 @@ class DateRecord(BaseModel):
     exercise = ForeignKeyField(Exercise, backref='date_record')
     rest_between = IntegerField()
 
+    SET_NOTE_REPR = "{0}:{1}"
+
     class Meta:
         indexes = (
             (('date', 'order'), True),  # unique
         )
 
-    def __getattr__(self, item):
-        if item == 'note':
-            try:
-                return self._note[0].note
-            except IndexError:
-                return ""
-        else:
-            return super().__getattr__(item)
+    @property
+    def note(self):
+        try:
+            return self._note[0].note
+        except IndexError:
+            return ""
+
+    @property
+    def sets_notes(self):
+        return ', '.join((self.SET_NOTE_REPR.format(s_rec.order, s_rec.note)
+                         for s_rec in self.set_record if s_rec.note != ""))
+
+    @property
+    def summary(self):
+        s_notes = self.sets_notes
+        return self.note if s_notes == "" else "{0} [{1}]".format(self.note, s_notes)
+
+    @property
+    def volume(self):
+        return sum(s_rec.volume for s_rec in self.set_record)
+
+    @property
+    def max_weight_set(self):
+        try:
+            return max(self.set_record, key=lambda s_rec: s_rec.weight)
+        except ValueError:
+            return None
+
+    @property
+    def max_repetition_set(self):
+        try:
+            return max(self.set_record, key=lambda s_rec: s_rec.repetition)
+        except ValueError:
+            return None
 
 
 class DateRecordNote(BaseModel):
@@ -118,6 +146,8 @@ class SetRecord(BaseModel):
                 return ""
         elif item == 'supports':
             return [sup.item for sup in self._support]
+        elif item == 'volume':
+            return self.weight * self.repetition
         else:
             return super().__getattr__(item)
 

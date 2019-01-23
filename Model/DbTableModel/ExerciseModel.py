@@ -30,12 +30,6 @@ class ExerciseModel(ColumnsDefinable, BaseModel):
         """
         return super().get_column_names(*args)
 
-    @classmethod
-    def get_data(cls, *args):
-        records = super().get_data(*args)
-        getters = cls.get_column_getters(*args)
-        return tuple(tuple(getter(rec) for getter in getters) for rec in records)
-
 
 if __name__ == "__main__":
     import doctest

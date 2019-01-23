@@ -165,6 +165,25 @@ class DateRecordRelationTest(unittest.TestCase):
         self.assertEqual(0, len(rec1._note))
         self.assertEqual("", rec1.note)
 
+    def test_set_note_format(self):
+        self.assertEqual("{0}:{1}", DateRecord.SET_NOTE_REPR)
+
+    def test_summary(self):
+        r2 = DateRecord.get(id=2)
+        self.assertEqual("", r2.sets_notes)
+        self.assertEqual("Dr5Test1", r2.summary)
+
+        r3 = DateRecord.get(id=3)
+        self.assertEqual("4:Sr4Test", r3.sets_notes)
+        self.assertEqual("Dr1Test [4:Sr4Test]", r3.summary)
+
+    def test_volume(self):
+        r1 = DateRecord.get(id=1)
+        self.assertEqual(25, r1.volume)
+
+        r2 = DateRecord.get(id=2)
+        self.assertEqual(0, r2.volume)
+
 
 class SetRecordRelationTest(unittest.TestCase):
     @classmethod
@@ -215,6 +234,13 @@ class SetRecordRelationTest(unittest.TestCase):
         expect = {"Lifting Straps", "Belt"}
         actual = set((str(sup) for sup in r2.supports))
         self.assertEqual(expect, actual)
+
+    def test_volume(self):
+        r1 = SetRecord.get(id=1)
+        self.assertEqual(30, r1.volume)
+
+        r2 = SetRecord.get(id=2)
+        self.assertEqual(25, r2.volume)
 
 
 if __name__ == "__main__":
