@@ -16,9 +16,9 @@ class ExerciseModel(ColumnsDefinable, BaseModel):
             ('Name', lambda rec: rec.name),
             ('Form', lambda rec: rec.form),
             ('Note', lambda rec: rec.note),
-            ('Def. weight', lambda rec: rec.default.weight),
-            ('Def. increment', lambda rec: rec.default.increment),
-            ('Def. rest', lambda rec: rec.default.rest),
+            ('Def. weight', lambda rec: rec.defaults.weight),
+            ('Def. increment', lambda rec: rec.defaults.increment),
+            ('Def. rest', lambda rec: rec.defaults.rest),
             ('Def. supports', lambda rec: set(str(sup) for sup in rec.supports)),
         ))
 

@@ -81,23 +81,23 @@ class ExerciseRelationTest(unittest.TestCase):
         return Exercise.select().where(
             Exercise.name == "DeadLift" and (Exercise.form == form)).get()
 
-    def test_exercise_no_default(self):
+    def test_exercise_no_defaults(self):
         conventional = self.get_dead_lift("Conventional")
         self.assertEqual(0, len(conventional._default))
 
-        default = conventional.default
-        self.assertEqual(0.0, default.weight)
-        self.assertEqual(0.0, default.increment)
-        self.assertEqual(0, default.rest)
+        defaults = conventional.defaults
+        self.assertEqual(0.0, defaults.weight)
+        self.assertEqual(0.0, defaults.increment)
+        self.assertEqual(0, defaults.rest)
 
-    def test_exercise_default(self):
+    def test_exercise_defaults(self):
         romania = self.get_dead_lift("Romania")
         self.assertEqual(1, len(romania._default))
 
-        default = romania.default
-        self.assertEqual(17, default.weight)
-        self.assertEqual(0.0, default.increment)
-        self.assertEqual(120, default.rest)
+        defaults = romania.defaults
+        self.assertEqual(17, defaults.weight)
+        self.assertEqual(0.0, defaults.increment)
+        self.assertEqual(120, defaults.rest)
 
     def test_no_support(self):
         conventional = self.get_dead_lift("Conventional")
@@ -227,13 +227,13 @@ class SetRecordRelationTest(unittest.TestCase):
 
         r1 = SetRecord.get(id=1)
         self.assertEqual(1, len(r1.supports))
-        self.assertEqual("Belt", str(r1.supports[0]))
+        belt = SupportItem.get(name="Belt")
+        self.assertTrue(belt in r1.supports)
 
         r2 = SetRecord.get(id=2)
         self.assertEqual(2, len(r2.supports))
-        expect = {"Lifting Straps", "Belt"}
-        actual = set((str(sup) for sup in r2.supports))
-        self.assertEqual(expect, actual)
+        expect = {SupportItem.get(name="Lifting Straps"), SupportItem.get(name="Belt")}
+        self.assertEqual(expect, r2.supports)
 
     def test_volume(self):
         r1 = SetRecord.get(id=1)

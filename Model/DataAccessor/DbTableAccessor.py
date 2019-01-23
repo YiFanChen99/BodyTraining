@@ -22,21 +22,23 @@ class Exercise(BaseModel):
             (('name', 'form'), True),  # unique
         )
 
-    def __getattr__(self, item):
-        if item == 'default':
-            try:
-                return self._default[0]
-            except IndexError:
-                return ExerciseDefault.get_default_record()
-        elif item == 'supports':
-            return [sup.item for sup in self._support]
-        if item == 'note':
-            try:
-                return self._note[0].note
-            except IndexError:
-                return ""
-        else:
-            return super().__getattr__(item)
+    @property
+    def defaults(self):
+        try:
+            return self._default[0]
+        except IndexError:
+            return ExerciseDefault.get_default_record()
+
+    @property
+    def supports(self):
+        return {sup.item for sup in self._support}
+
+    @property
+    def note(self):
+        try:
+            return self._note[0].note
+        except IndexError:
+            return ""
 
 
 class ExerciseNote(BaseModel):
@@ -138,18 +140,20 @@ class SetRecord(BaseModel):
             (('date_record', 'order'), True),  # unique
         )
 
-    def __getattr__(self, item):
-        if item == 'note':
-            try:
-                return self._note[0].note
-            except IndexError:
-                return ""
-        elif item == 'supports':
-            return [sup.item for sup in self._support]
-        elif item == 'volume':
-            return self.weight * self.repetition
-        else:
-            return super().__getattr__(item)
+    @property
+    def note(self):
+        try:
+            return self._note[0].note
+        except IndexError:
+            return ""
+
+    @property
+    def supports(self):
+        return {sup.item for sup in self._support}
+
+    @property
+    def volume(self):
+        return self.weight * self.repetition
 
 
 class SetRecordSupport(BaseModel):
