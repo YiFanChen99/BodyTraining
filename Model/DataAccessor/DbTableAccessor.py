@@ -160,6 +160,10 @@ class SetRecord(BaseModel):
     def volume(self):
         return self.weight * self.repetition
 
+    @property
+    def date(self):
+        return self.date_record.date
+
 
 class SetRecordSupport(BaseModel):
     set_record = ForeignKeyField(SetRecord, backref='_support')
