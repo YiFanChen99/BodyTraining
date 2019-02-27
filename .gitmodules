@@ -4,3 +4,6 @@
 [submodule "Model/DataAccessor/DbAccessor"]
 	path = Model/DataAccessor/DbAccessor
 	url = git@github.com:YiFanChen99/DbAccessor.git
+[submodule "Model/DataAccessor/ConfigureIntegrator"]
+	path = Model/DataAccessor/ConfigureIntegrator
+	url = git@github.com:YiFanChen99/ConfigureIntegrator.git
