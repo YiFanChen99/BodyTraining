@@ -7,3 +7,6 @@
 [submodule "Model/DataAccessor/ConfigureIntegrator"]
 	path = Model/DataAccessor/ConfigureIntegrator
 	url = git@github.com:YiFanChen99/ConfigureIntegrator.git
+[submodule "Ui/PyQtComponent"]
+	path = Ui/PyQtComponent
+	url = git@github.com:YiFanChen99/PyQtComponent.git
