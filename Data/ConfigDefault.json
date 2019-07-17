@@ -1,6 +1,12 @@
 {
-  "window": {
-    "title": "Body Training"
+  "windows": {
+    "main": {
+      "title": "Body Training",
+      "width": 600,
+      "height": 400,
+      "x_axis": 600,
+      "y_axis": 150
+    }
   },
   "db_path": "D:/Dropbox/YiFanAndPig/BodyTraining.db"
 }

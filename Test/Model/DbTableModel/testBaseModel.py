@@ -2,7 +2,6 @@
 import unittest
 from collections import OrderedDict
 
-
 from Model.DbTableModel.BaseModel import *
 
 
